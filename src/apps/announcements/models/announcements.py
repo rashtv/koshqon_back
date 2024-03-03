@@ -1,9 +1,10 @@
 from django.db import models
 
 from apps.common.models.base_model import BaseModel
+from apps.common.models.soft_delete_model import SoftDeleteModel
 
 
-class BaseAnnouncement(BaseModel):
+class BaseAnnouncement(BaseModel, SoftDeleteModel):
     class Meta:
         abstract = True
 
@@ -96,7 +97,7 @@ class ResidencyAnnouncement(BaseAnnouncement):
         blank=False,
         null=False,
     )
-    ethernet = models.BooleanField(
+    internet = models.BooleanField(
         verbose_name='Интернет',
         blank=False,
         null=False,
@@ -181,7 +182,7 @@ class HomelessAnnouncement(BaseAnnouncement):
         blank=False,
         null=False,
     )
-    ethernet = models.BooleanField(
+    internet = models.BooleanField(
         verbose_name='Интернет',
         blank=False,
         null=False,
