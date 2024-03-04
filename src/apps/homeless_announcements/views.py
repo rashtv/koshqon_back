@@ -28,10 +28,10 @@ class HomelessAnnouncementAPIView(APIView):
     @swagger_auto_schema(
         operation_description='Create a new Homeless Announcement',
         request_body=HomelessAnnouncementInputSerializer,
-        responses={201: HomelessAnnouncementOutputSerializer(many=True)},
+        responses={201: HomelessAnnouncementOutputSerializer()},
     )
     def post(self, request):
-        serializer = HomelessAnnouncementInputSerializer(data=request)
+        serializer = HomelessAnnouncementInputSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(

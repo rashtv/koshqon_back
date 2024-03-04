@@ -7,5 +7,5 @@ from apps.residency_announcements.models import (
 
 @admin.register(ResidencyAnnouncement)
 class ResidencyAnnouncementAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'city', 'district', 'street', 'house_number', ]
+    list_display = ['id', 'user', 'city', 'district', 'street', 'house_number', 'is_deleted', ]
     list_filter = ['user', 'city', 'district', ]
