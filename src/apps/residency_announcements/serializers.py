@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.announcements.models.announcements import (
+from apps.residency_announcements.models import (
     ResidencyAnnouncement,
 )
 

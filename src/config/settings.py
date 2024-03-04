@@ -24,8 +24,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
 
-    'apps.announcements.apps.AnnouncementsAppConfig',
+    'apps.homeless_announcements.apps.HomelessAnnouncementsAppConfig',
+    'apps.residency_announcements.apps.ResidencyAnnouncementsAppConfig',
     'apps.common.apps.CommonAppConfig',
+    'apps.users.apps.UsersAppConfig',
 ]
 
 MIDDLEWARE = [

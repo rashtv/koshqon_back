@@ -4,12 +4,13 @@ from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ...models import (
+from apps.residency_announcements.models import (
     ResidencyAnnouncement,
 )
-from ...serializers.residency_announcements.serializers import (
+from apps.residency_announcements.serializers import (
     ResidencyAnnouncementSerializer,
-    ResidencyAnnouncementInputSerializer, ResidencyAnnouncementOutputSerializer
+    ResidencyAnnouncementInputSerializer,
+    ResidencyAnnouncementOutputSerializer,
 )
 
 
@@ -17,24 +18,30 @@ from ...serializers.residency_announcements.serializers import (
 class ResidencyAnnouncementAPIView(APIView):
     @swagger_auto_schema(
         operation_description='Get all Residency Announcements',
-        responses={200: ResidencyAnnouncementSerializer(many=True)}
+        responses={200: ResidencyAnnouncementOutputSerializer(many=True)},
     )
     def get(self, request):
-        announcements = ResidencyAnnouncement.objects.filter(is_deleted=False)
+        announcements = ResidencyAnnouncement.objects.filter(is_deleted=False).order_by('-created_at')
         serializer = ResidencyAnnouncementSerializer(announcements, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         operation_description='Create a new Residency Announcement',
         request_body=ResidencyAnnouncementInputSerializer,
-        responses={201: ResidencyAnnouncementSerializer()}
+        responses={201: ResidencyAnnouncementSerializer()},
     )
     def post(self, request):
         serializer = ResidencyAnnouncementInputSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                data=serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(
+            data=serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 @permission_classes([permissions.IsAuthenticated])
@@ -51,15 +58,16 @@ class ResidencyAnnouncementDetailAPIView(APIView):
             )
         except ResidencyAnnouncement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
         return Response(
+            data=ResidencyAnnouncementOutputSerializer(announcement).data,
             status=status.HTTP_200_OK,
-            data=ResidencyAnnouncementOutputSerializer(announcement).data
         )
 
     @swagger_auto_schema(
         operation_description='Update a Residency Announcement',
         request_body=ResidencyAnnouncementInputSerializer,
-        responses={201: ResidencyAnnouncementOutputSerializer()}
+        responses={200: ResidencyAnnouncementOutputSerializer()},
     )
     def patch(self, request, announcement_id):
         try:
@@ -69,14 +77,22 @@ class ResidencyAnnouncementDetailAPIView(APIView):
             )
         except ResidencyAnnouncement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = ResidencyAnnouncementInputSerializer(announcement, data=request.data, partial=True)
+
+        serializer = ResidencyAnnouncementInputSerializer(
+            announcement,
+            data=request.data,
+            partial=True,
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(
+                data=ResidencyAnnouncementOutputSerializer(announcement).data,
                 status=status.HTTP_200_OK,
-                data=ResidencyAnnouncementOutputSerializer(announcement).data
             )
-        return Response(status=status.HTTP_400_BAD_REQUEST, data='Invalid input')
+        return Response(
+            data=serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
     @swagger_auto_schema(
         operation_description='Delete an existing Residency Announcement',

@@ -20,5 +20,12 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('api-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='api-docs'),
     path('admin/', admin.site.urls),
-    path('api/', include('apps.announcements.urls', namespace='announcements')),
+    path('api/', include(
+        'apps.residency_announcements.urls',
+        namespace='residency_announcements',
+    )),
+    path('api/', include(
+        'apps.homeless_announcements.urls',
+        namespace='homeless_announcements',
+    )),
 ]
