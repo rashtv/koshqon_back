@@ -22,13 +22,13 @@ class ResidencyAnnouncementAPIView(APIView):
     )
     def get(self, request):
         announcements = ResidencyAnnouncement.objects.filter(is_deleted=False).order_by('-created_at')
-        serializer = ResidencyAnnouncementSerializer(announcements, many=True)
+        serializer = ResidencyAnnouncementOutputSerializer(announcements, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         operation_description='Create a new Residency Announcement',
         request_body=ResidencyAnnouncementInputSerializer,
-        responses={201: ResidencyAnnouncementSerializer()},
+        responses={201: ResidencyAnnouncementOutputSerializer()},
     )
     def post(self, request):
         serializer = ResidencyAnnouncementInputSerializer(data=request.data)

@@ -9,19 +9,14 @@ class ResidencyAnnouncement(BaseAnnouncement):
         verbose_name_plural = 'Объявления с местом жительства'
         ordering = ['-created_at']
 
-    user = models.CharField(
+    user = models.ForeignKey(
+        to='users.User',
         verbose_name='Объявитель',
-        max_length=255,
+        related_name='residency_announcement_user',
         blank=False,
         null=False,
-        default='User'
+        on_delete=models.CASCADE,
     )
-    # user = models.ForeignKey(
-    #     to='User',
-    #     verbose_name='Объявитель',
-    #     related_name='announcement_user',
-    #     on_delete=models.CASCADE,
-    # )
     city = models.CharField(
         verbose_name='Город',
         max_length=255,

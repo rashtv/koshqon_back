@@ -10,9 +10,9 @@ class HomelessAnnouncement(BaseAnnouncement):
         ordering = ['-created_at']
 
     user = models.ForeignKey(
-        to='User',
+        to='users.User',
         verbose_name='Объявитель',
-        related_name='announcement_user',
+        related_name='homeless_announcement_user',
         blank=False,
         null=False,
         on_delete=models.CASCADE,

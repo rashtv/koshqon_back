@@ -10,7 +10,7 @@ class AnnouncementImage(BaseModel):
         ordering = ['-created_at']
 
     announcement = models.ForeignKey(
-        to='announcements.ResidencyAnnouncement',
+        to='residency_announcements.ResidencyAnnouncement',
         verbose_name='Фотографии объявления',
         related_name='announcement_images',
         on_delete=models.CASCADE

@@ -20,7 +20,7 @@ class HomelessAnnouncementInputSerializer(serializers.ModelSerializer):
     class Meta:
         model = HomelessAnnouncement
         fields = [
-            'city', 'district',
+            'user', 'city', 'district',
             'type', 'rooms_number', 'floors_number', 'floor_location',
             'area', 'conditions',
             'bathroom', 'kitchen', 'internet', 'intercom',
@@ -31,4 +31,3 @@ class HomelessAnnouncementOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = HomelessAnnouncement
         fields = '__all__'
-        unlisted_fields = 'id'
