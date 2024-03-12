@@ -3,7 +3,7 @@ from django.db import models
 from apps.common.models.base_model import BaseModel
 
 
-class Image(BaseModel):
+class AnnouncementImage(BaseModel):
     class Meta:
         verbose_name = 'Фотография'
         verbose_name_plural = 'Фотографии'
