@@ -1,5 +1,3 @@
-# users/models.py
-
 from django.contrib.auth.models import (
     AbstractUser,
 )
@@ -36,7 +34,7 @@ class User(
     phone_number = models.CharField(
         max_length=15,
         unique=True,
-        default='+77777777777'
+        default='77777777777'
     )
 
     first_name = models.CharField(

@@ -6,7 +6,7 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title='Scema API',
+        title='Schema API',
         default_version='v1',
         description='Swagger Docs for Django KoshQon Backend',
         terms_of_service='https://www.google.com/policies/terms/',
@@ -17,15 +17,23 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny,],
 )
 
-urlpatterns = [
-    path('api-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='api-docs'),
-    path('admin/', admin.site.urls),
-    path('api/', include(
+api_urlpatterns = [
+    path('', include(
         'apps.residency_announcements.urls',
         namespace='residency_announcements',
     )),
-    path('api/', include(
+    path('', include(
         'apps.homeless_announcements.urls',
         namespace='homeless_announcements',
     )),
+    path('', include(
+        'apps.users.urls',
+        namespace='users',
+    )),
+]
+
+urlpatterns = [
+    path('api-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='api-docs'),
+    path('admin/', admin.site.urls, name='admin'),
+    path('api/', include(api_urlpatterns), name='api'),
 ]
