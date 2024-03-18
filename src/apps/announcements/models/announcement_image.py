@@ -11,8 +11,11 @@ class AnnouncementImage(BaseModel):
 
     announcement = models.ForeignKey(
         to='announcements.Announcement',
-        verbose_name='Фотографии объявления',
+        verbose_name='Объявление',
         related_name='announcement_images',
         on_delete=models.CASCADE
     )
-    image = models.ImageField(upload_to='media')
+    image = models.ImageField(
+        verbose_name='Фотография объявления',
+        upload_to='media',
+    )
