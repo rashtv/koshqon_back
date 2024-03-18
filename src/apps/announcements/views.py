@@ -9,8 +9,6 @@ from apps.announcements.models import (
 )
 from apps.announcements.serializers import (
     AnnouncementSerializer,
-    AnnouncementSerializer,
-    AnnouncementSerializer,
 )
 
 

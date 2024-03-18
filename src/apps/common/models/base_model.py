@@ -9,10 +9,9 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
-    id = models.UUIDField(
+    id = models.BigAutoField(
         primary_key=True,
-        default=uuid.uuid4,
-        editable=False
+        editable=False,
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
