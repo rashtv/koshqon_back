@@ -5,30 +5,30 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.users.models.favorite import (
-    HomelessAnnouncementsFavorite, ResidencyAnnouncementsFavorite,
+    AnnouncementsFavorite,
 )
 from apps.users.serializers import (
-    HomelessAnnouncementsFavoriteSerializer, ResidencyAnnouncementsFavoriteSerializer,
+    AnnouncementsFavoriteSerializer,
 )
 
 
 class FavoritesAPIView(APIView):
     @swagger_auto_schema(
         operation_description='Get all Favorites Announcements',
-        responses={200: ResidencyAnnouncementsFavoriteSerializer(many=True)},
+        responses={200: AnnouncementsFavoriteSerializer(many=True)},
     )
     def get(self, request, user_id):
-        favorites = ResidencyAnnouncementsFavorite.objects.filter(user_id=request.user.id)
-        serializer = ResidencyAnnouncementsFavoriteSerializer(favorites, many=True)
+        favorites = AnnouncementsFavorite.objects.filter(user_id=request.user.id)
+        serializer = AnnouncementsFavoriteSerializer(favorites, many=True)
         return Response(serializer.data)
 
     @swagger_auto_schema(
         operation_description='Add to Favorites',
-        request_body=ResidencyAnnouncementsFavoriteSerializer,
-        responses={201: ResidencyAnnouncementsFavoriteSerializer()},
+        request_body=AnnouncementsFavoriteSerializer,
+        responses={201: AnnouncementsFavoriteSerializer()},
     )
     def post(self, request, user_id):
-        serializer = ResidencyAnnouncementsFavoriteSerializer(data=request.data)
+        serializer = AnnouncementsFavoriteSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(
@@ -47,7 +47,7 @@ class FavoriteDetailAPIView(APIView):
         operation_description='Delete a certain announcement from Favorites',
     )
     def delete(self, request, user_id, announcement_id):
-        favorite = ResidencyAnnouncementsFavorite.objects.filter(
+        favorite = AnnouncementsFavorite.objects.filter(
             user=user_id,
             announcement=announcement_id,
         )

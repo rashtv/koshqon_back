@@ -1,18 +1,19 @@
 from django.db import models
 
-from apps.common.models.base_announcement import BaseAnnouncement
+from apps.common.models.base_model import BaseModel
+from apps.common.models.soft_delete_model import SoftDeleteModel
 
 
-class HomelessAnnouncement(BaseAnnouncement):
+class Announcement(BaseModel, SoftDeleteModel):
     class Meta:
-        verbose_name = 'Объявление без места жительства'
-        verbose_name_plural = 'Объявления без места жительства'
+        verbose_name = 'Объявление'
+        verbose_name_plural = 'Объявления'
         ordering = ['-created_at']
 
     user = models.ForeignKey(
         to='users.User',
         verbose_name='Объявитель',
-        related_name='homeless_announcement_user',
+        related_name='announcement_user',
         blank=False,
         null=False,
         on_delete=models.CASCADE,
@@ -26,6 +27,17 @@ class HomelessAnnouncement(BaseAnnouncement):
     district = models.CharField(
         verbose_name='Район',
         max_length=255,
+        blank=False,
+        null=False,
+    )
+    street = models.CharField(
+        verbose_name='Улица',
+        max_length=255,
+        blank=False,
+        null=False,
+    )
+    house_number = models.IntegerField(
+        verbose_name='Номер дома',
         blank=False,
         null=False,
     )

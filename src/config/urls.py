@@ -19,12 +19,8 @@ schema_view = get_schema_view(
 
 api_urlpatterns = [
     path('', include(
-        'apps.residency_announcements.urls',
-        namespace='residency_announcements',
-    )),
-    path('', include(
-        'apps.homeless_announcements.urls',
-        namespace='homeless_announcements',
+        'apps.announcements.urls',
+        namespace='announcements',
     )),
     path('', include(
         'apps.users.urls',

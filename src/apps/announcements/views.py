@@ -4,34 +4,34 @@ from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.residency_announcements.models import (
-    ResidencyAnnouncement,
+from apps.announcements.models import (
+    Announcement,
 )
-from apps.residency_announcements.serializers import (
-    ResidencyAnnouncementSerializer,
-    ResidencyAnnouncementInputSerializer,
-    ResidencyAnnouncementOutputSerializer,
+from apps.announcements.serializers import (
+    AnnouncementSerializer,
+    AnnouncementSerializer,
+    AnnouncementSerializer,
 )
 
 
 @permission_classes([permissions.IsAuthenticated])
-class ResidencyAnnouncementAPIView(APIView):
+class AnnouncementAPIView(APIView):
     @swagger_auto_schema(
-        operation_description='Get all Residency Announcements',
-        responses={200: ResidencyAnnouncementOutputSerializer(many=True)},
+        operation_description='Get all Announcements',
+        responses={200: AnnouncementSerializer(many=True)},
     )
     def get(self, request):
-        announcements = ResidencyAnnouncement.objects.filter(is_deleted=False).order_by('-created_at')
-        serializer = ResidencyAnnouncementOutputSerializer(announcements, many=True)
+        announcements = Announcement.objects.filter(is_deleted=False).order_by('-created_at')
+        serializer = AnnouncementSerializer(announcements, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
-        operation_description='Create a new Residency Announcement',
-        request_body=ResidencyAnnouncementInputSerializer,
-        responses={201: ResidencyAnnouncementOutputSerializer()},
+        operation_description='Create a new Announcement',
+        request_body=AnnouncementSerializer,
+        responses={201: AnnouncementSerializer()},
     )
     def post(self, request):
-        serializer = ResidencyAnnouncementInputSerializer(data=request.data)
+        serializer = AnnouncementSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(
@@ -45,40 +45,40 @@ class ResidencyAnnouncementAPIView(APIView):
 
 
 @permission_classes([permissions.IsAuthenticated])
-class ResidencyAnnouncementDetailAPIView(APIView):
+class AnnouncementDetailAPIView(APIView):
     @swagger_auto_schema(
-        operation_description='Get a specific Residency Announcement',
-        responses={200: ResidencyAnnouncementOutputSerializer()}
+        operation_description='Get a specific Announcement',
+        responses={200: AnnouncementSerializer()}
     )
     def get(self, request, announcement_id):
         try:
-            announcement = ResidencyAnnouncement.objects.get(
+            announcement = Announcement.objects.get(
                 id=announcement_id,
                 is_deleted=False
             )
-        except ResidencyAnnouncement.DoesNotExist:
+        except Announcement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response(
-            data=ResidencyAnnouncementOutputSerializer(announcement).data,
+            data=AnnouncementSerializer(announcement).data,
             status=status.HTTP_200_OK,
         )
 
     @swagger_auto_schema(
-        operation_description='Update a Residency Announcement',
-        request_body=ResidencyAnnouncementInputSerializer,
-        responses={200: ResidencyAnnouncementOutputSerializer()},
+        operation_description='Update a Announcement',
+        request_body=AnnouncementSerializer,
+        responses={200: AnnouncementSerializer()},
     )
     def patch(self, request, announcement_id):
         try:
-            announcement = ResidencyAnnouncement.objects.get(
+            announcement = Announcement.objects.get(
                 id=announcement_id,
                 is_deleted=False,
             )
-        except ResidencyAnnouncement.DoesNotExist:
+        except Announcement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serializer = ResidencyAnnouncementInputSerializer(
+        serializer = AnnouncementSerializer(
             announcement,
             data=request.data,
             partial=True,
@@ -86,7 +86,7 @@ class ResidencyAnnouncementDetailAPIView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(
-                data=ResidencyAnnouncementOutputSerializer(announcement).data,
+                data=AnnouncementSerializer(announcement).data,
                 status=status.HTTP_200_OK,
             )
         return Response(
@@ -95,15 +95,15 @@ class ResidencyAnnouncementDetailAPIView(APIView):
         )
 
     @swagger_auto_schema(
-        operation_description='Delete an existing Residency Announcement',
+        operation_description='Delete an existing Announcement',
     )
     def delete(self, request, announcement_id):
         try:
-            announcement = ResidencyAnnouncement.objects.get(
+            announcement = Announcement.objects.get(
                 id=announcement_id,
                 is_deleted=False,
             )
-        except ResidencyAnnouncement.DoesNotExist:
+        except Announcement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         announcement.is_deleted = True

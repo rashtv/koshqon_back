@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from apps.residency_announcements.models import (
-    ResidencyAnnouncement,
+from apps.announcements.models import (
+    Announcement,
 )
 
 
-@admin.register(ResidencyAnnouncement)
-class ResidencyAnnouncementAdmin(admin.ModelAdmin):
+@admin.register(Announcement)
+class AnnouncementAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'city', 'district', 'street', 'house_number', 'is_deleted', ]
     list_filter = ['user', 'city', 'district', ]

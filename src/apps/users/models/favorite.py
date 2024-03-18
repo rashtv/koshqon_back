@@ -3,33 +3,19 @@ from django.db import models
 from apps.common.models.base_model import BaseModel
 
 
-class HomelessAnnouncementsFavorite(BaseModel):
+class AnnouncementsFavorite(BaseModel):
     class Meta:
-        verbose_name = 'Список избранных объявлений без м/ж'
-        verbose_name_plural = 'Списки избранных объявлений без м/ж'
+        verbose_name = 'Список избранных объявлений'
+        verbose_name_plural = 'Списки избранных объявлений'
         ordering = ('-created_at',)
 
     user = models.ForeignKey(
         to='users.User',
+        verbose_name='Пользователь',
         on_delete=models.CASCADE,
     )
     announcement = models.ForeignKey(
-        to='homeless_announcements.HomelessAnnouncement',
-        on_delete=models.CASCADE,
-    )
-
-
-class ResidencyAnnouncementsFavorite(BaseModel):
-    class Meta:
-        verbose_name = 'Список избранных объявлений с м/ж'
-        verbose_name_plural = 'Списки избранных объявлений с м/ж'
-        ordering = ('-created_at',)
-
-    user = models.ForeignKey(
-        to='users.User',
-        on_delete=models.CASCADE,
-    )
-    announcement = models.ForeignKey(
-        to='residency_announcements.ResidencyAnnouncement',
+        to='announcements.Announcement',
+        verbose_name='Объявление',
         on_delete=models.CASCADE,
     )
