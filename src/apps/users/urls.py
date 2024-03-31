@@ -8,13 +8,13 @@ app_name = 'users'
 
 urlpatterns = [
     path(
-        'user/<str:user_id>/favorites/',
+        'users/<str:user_id>/favorites/',
         FavoritesAPIView.as_view(),
-        name='favorites-list-add'
+        name='favorites_list_delete'
     ),
     path(
-        'user/<str:user_id>/favorites/<str:announcement_id>/',
+        'users/<str:user_id>/favorites/<str:announcement_id>/',
         FavoriteDetailAPIView.as_view(),
-        name='favorite-delete'
+        name='favorite_post_delete'
     ),
 ]
