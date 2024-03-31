@@ -28,8 +28,16 @@ api_urlpatterns = [
     )),
 ]
 
+workflow_urlpatterns = [
+    path('', include(
+        'apps.workflow.urls',
+        namespace='workflow',
+    )),
+]
+
 urlpatterns = [
     path('api-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='api-docs'),
     path('admin/', admin.site.urls, name='admin'),
     path('api/', include(api_urlpatterns), name='api'),
+    path('workflow/', include(workflow_urlpatterns), name='workflow')
 ]

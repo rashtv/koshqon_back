@@ -67,8 +67,8 @@ def add_initial_data(apps, schema_editor):
         # Add more nationalities as needed
     ])
 
-class Migration(migrations.Migration):
 
+class Migration(migrations.Migration):
     dependencies = [
         ('workflow', '0001_initial'),
     ]

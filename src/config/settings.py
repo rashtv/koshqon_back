@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'apps.announcements.apps.AnnouncementsAppConfig',
     'apps.common.apps.CommonAppConfig',
     'apps.users.apps.UsersAppConfig',
+    'apps.workflow.apps.WorkflowAppConfig',
 ]
 
 MIDDLEWARE = [
