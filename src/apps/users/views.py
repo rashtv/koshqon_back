@@ -4,6 +4,8 @@ from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.announcements.models import Announcement
+from apps.announcements.serializers import AnnouncementSerializer
 from apps.users.models.favorite import (
     AnnouncementsFavorite,
 )
@@ -91,4 +93,19 @@ class FavoriteDetailAPIView(APIView):
         return Response(
             data='Favorite does not exist.',
             status=status.HTTP_404_NOT_FOUND,
+        )
+
+
+@permission_classes([permissions.IsAuthenticated])
+class UserAnnouncementsAPIView(APIView):
+    @swagger_auto_schema(
+        operation_description='Get all User Announcements',
+        responses={200: AnnouncementSerializer(many=True)}
+    )
+    def get(self, request, user_id):
+        announcements = Announcement.objects.filter(user=user_id, is_deleted=False)
+        serializer = AnnouncementSerializer(instance=announcements, many=True)
+        return Response(
+            data=serializer.data,
+            status=status.HTTP_200_OK,
         )
