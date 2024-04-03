@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    container_name: koshqon_postgres
+    image: postgres:16-alpine
+    env_file:
+      - ./.envs/.local/.django
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  django:
+    container_name: koshqon_django
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/src:rw
+      - ./media:/media
+    ports:
+      - '8080:8080'
+    env_file:
+      - .envs/.local/.django
+      - .envs/.local/.postgres
+    depends_on:
+      - postgres
