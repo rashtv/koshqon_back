@@ -9,13 +9,13 @@ app_name = 'announcements'
 
 urlpatterns = [
     path(
-        'announcements/',
+        '',
         view=AnnouncementAPIView.as_view(),
-        name='get_create_announcements',
+        name='list-create-announcements',
     ),
     path(
-        'announcements/<str:announcement_id>',
+        '<int:announcement_id>/',
         view=AnnouncementDetailAPIView.as_view(),
-        name='get_update_delete_announcements',
+        name='read-update-delete-announcements',
     ),
 ]

@@ -1,20 +1,25 @@
 from django.urls import path
 from apps.users.views import (
     FavoritesAPIView,
-    FavoriteDetailAPIView,
+    FavoriteDetailAPIView, UserAnnouncementsAPIView,
 )
 
 app_name = 'users'
 
 urlpatterns = [
     path(
-        'users/<str:user_id>/favorites/',
+        '<int:user_id>/favorites/',
         FavoritesAPIView.as_view(),
-        name='favorites_list_delete'
+        name='list-delete-favorites'
     ),
     path(
-        'users/<str:user_id>/favorites/<str:announcement_id>/',
+        '<int:user_id>/favorites/<int:announcement_id>/',
         FavoriteDetailAPIView.as_view(),
-        name='favorite_post_delete'
+        name='create-delete-favorite'
+    ),
+    path(
+        '<int:user_id>/announcements/',
+        view=UserAnnouncementsAPIView.as_view(),
+        name='list-user_announcements',
     ),
 ]
