@@ -3,7 +3,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 
-from .user_manager import UserManager
+from apps.users.models.user_manager import UserManager
 from apps.common.models.soft_delete_model import SoftDeleteModel
 
 

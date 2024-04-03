@@ -12,6 +12,7 @@ class Announcement(BaseModel, SoftDeleteModel):
 
     user = models.ForeignKey(
         to='users.User',
+        to_field='id',
         verbose_name='Объявитель',
         related_name='announcement_user',
         blank=False,
@@ -44,8 +45,8 @@ class Announcement(BaseModel, SoftDeleteModel):
     type = models.CharField(
         verbose_name='Тип места проживания',
         max_length=255,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
     rooms_number = models.IntegerField(
         verbose_name='Кол-во комнат',
@@ -70,26 +71,22 @@ class Announcement(BaseModel, SoftDeleteModel):
     conditions = models.CharField(
         verbose_name='Условия',
         max_length=255,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
-    bathroom = models.BooleanField(
+    bathroom = models.IntegerField(
         verbose_name='Ванная',
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
-    kitchen = models.BooleanField(
+    kitchen = models.IntegerField(
         verbose_name='Кухня',
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
-    internet = models.BooleanField(
-        verbose_name='Интернет',
-        blank=False,
-        null=False,
-    )
-    intercom = models.BooleanField(
-        verbose_name='Домофон',
-        blank=False,
-        null=False,
+    description = models.TextField(
+        verbose_name='Описание',
+        max_length=1023,
+        blank=True,
+        null=True,
     )

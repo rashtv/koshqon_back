@@ -11,6 +11,7 @@ class AnnouncementImage(BaseModel):
 
     announcement = models.ForeignKey(
         to='announcements.Announcement',
+        to_field='id',
         verbose_name='Объявление',
         related_name='announcement_images',
         on_delete=models.CASCADE
