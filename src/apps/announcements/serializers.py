@@ -1,3 +1,5 @@
+import base64
+
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
@@ -15,7 +17,8 @@ class AnnouncementImageSerializer(serializers.ModelSerializer):
         fields = ('image', )
 
     def save(self, announcement, *args, **kwargs):
-        image = AnnouncementImage.objects.create(announcement=announcement, image=self)
+        image_data = self.validated_data.get('image')
+        image = AnnouncementImage.objects.create(announcement=announcement, image=image_data)
         return image
 
 
@@ -40,12 +43,20 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         )
 
     def get_images(self, obj): # noqa
-        images = AnnouncementImage.objects.filter(announcement=obj)
-        return AnnouncementImageSerializer(images, many=True).data
+        images = []
+        images_data = AnnouncementImage.objects.filter(announcement=obj)
+        for image_data in images_data:
+            with open(image_data.image.name, 'rb') as image_file:
+                data = image_file.read()
+                images.append({
+                    'image': base64.b64encode(data).decode('utf-8')
+                })
+        return images
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['images'] = self.get_images(instance)
+        print(data.get('images'))
         return data
 
     def create(self, validated_data):
