@@ -4,8 +4,12 @@ from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.announcements.models import Announcement
-from apps.announcements.serializers import AnnouncementSerializer
+from apps.announcements.models import (
+    Announcement,
+)
+from apps.announcements.serializers import (
+    AnnouncementSerializer,
+)
 from apps.users.models.favorite import (
     AnnouncementsFavorite,
 )
@@ -31,8 +35,8 @@ class FavoritesAPIView(APIView):
         )
 
     @swagger_auto_schema(
-        operation_description='Delete all Favorites Announcements of User',
-        responses={204: 'All Favorites deleted'},
+        operation_description='Delete all user favorites',
+        responses={204: 'All user favorites deleted'},
     )
     def delete(self, request, user_id):
         AnnouncementsFavorite.objects.filter(user_id=request.user.id).delete()

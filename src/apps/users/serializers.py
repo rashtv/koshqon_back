@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from apps.announcements.models import Announcement
 from apps.announcements.serializers import AnnouncementSerializer
 from apps.users.models.favorite import (
     AnnouncementsFavorite,

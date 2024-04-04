@@ -39,7 +39,7 @@ workflow_urlpatterns = [
 ]
 
 urlpatterns = [
-    path('api-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='api-docs'),
+    path('api-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='api-docs'), # noqa
     path('admin/', admin.site.urls, name='admin'),
     path('announcements/', include(announcements_urlpatterns), name='announcements'),
     path('users/', include(users_urlpatterns), name='users'),
