@@ -12,6 +12,7 @@ from apps.announcements.models import (
 )
 from apps.announcements.serializers import (
     AnnouncementSerializer,
+    AnnouncementFilterSerializer,
 )
 
 
@@ -19,31 +20,41 @@ from apps.announcements.serializers import (
 class AnnouncementAPIView(APIView):
     @swagger_auto_schema(
         operation_description='Get all announcements',
+        query_serializer=AnnouncementFilterSerializer(),
         responses={200: AnnouncementSerializer(many=True)},
     )
     def get(self, request):
-        # query_params = request.query_params
+        # query_params = request.
+        query_params = request.query_params
         announcements = Announcement.objects.filter(is_deleted=False).order_by('-created_at')
 
-        # district = query_params.get('district', None)
-        # if district:
-        #     announcements = announcements.filter(district=district)
-        #
-        # area_gt = query_params.get('area_gt', None)
-        # if area_gt:
-        #     announcements = announcements.filter(area__gt=area_gt)
-        #
-        # area_lt = query_params.get('area_lt', None)
-        # if area_lt:
-        #     announcements = announcements.filter(area__lt=area_lt)
-        #
-        # floor_location_gt = query_params.get('floor_location_gt', None)
-        # if floor_location_gt:
-        #     announcements = announcements.filter(floor_location__gt=floor_location_gt)
-        #
-        # floor_location_lt = query_params.get('floor_location_lt', None)
-        # if floor_location_lt:
-        #     announcements = announcements.filter(floor_location__lt=floor_location_lt)
+        city = query_params.get('city', None)
+        if city:
+            announcements = announcements.filter(city=city)
+
+        floors_number_gte = query_params.get('floors_number_gte', None)
+        if floors_number_gte:
+            announcements = announcements.filter(floors_number__gte=floors_number_gte)
+
+        floors_number_lte = query_params.get('floors_number_lte', None)
+        if floors_number_lte:
+            announcements = announcements.filter(floors_number__lte=floors_number_lte)
+
+        floor_location_gte = query_params.get('floor_location_gte', None)
+        if floor_location_gte:
+            announcements = announcements.filter(floor_location__gte=floor_location_gte)
+
+        floor_location_lte = query_params.get('floor_location_lte', None)
+        if floor_location_lte:
+            announcements = announcements.filter(floor_location__lte=floor_location_lte)
+
+        area_gte = query_params.get('area_gte', None)
+        if area_gte:
+            announcements = announcements.filter(area__gte=area_gte)
+
+        area_lte = query_params.get('area_lte', None)
+        if area_lte:
+            announcements = announcements.filter(area__lte=area_lte)
 
         serializer = AnnouncementSerializer(announcements, many=True)
         return Response(
