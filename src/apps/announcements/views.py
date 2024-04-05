@@ -24,7 +24,6 @@ class AnnouncementAPIView(APIView):
         responses={200: AnnouncementSerializer(many=True)},
     )
     def get(self, request):
-        # query_params = request.
         query_params = request.query_params
         announcements = Announcement.objects.filter(is_deleted=False).order_by('-created_at')
 
